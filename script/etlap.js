@@ -1,9 +1,9 @@
-$(document).ready(function(){
+$(document).ready(function () {
     var v = false;
     var f;
     var m;
-    $('button#vegOn').click(function(){
-        if(v == false) {
+    $('button#vegOn').click(function () {
+        if (v == false) {
             //teljesen törli a DOM szerezetből (child element is törlődik)
             //$('.fish').remove();
             //Megtartja, így később használható még (child element is törlődik)
@@ -16,20 +16,24 @@ $(document).ready(function(){
             $('li.hamburger').replaceWith('<li class="portobello"> Giant portobello mushroom </li>');
             //A húsnál több féle dolgot helyettesítünk ugyanazzal és később tudnunk kell, hol mik voltak ezek, ezért a fenti megoldás nem jó.
             $('li.meat').after('<li class="tofu">Tofu</li>');
+            $('.tofu').parent().parent().addClass('veg_leaf');
             $m = $('li.meat').detach();
             v = true;
         }
     });
-    $('button#restoreMe').click(function(){
-        if(v == true){
+    $('button#restoreMe').click(function () {
+        if (v == true) {
             $('ul.menu_entrees').children().first().before($f);
             $('li.portobello').replaceWith('<li class="hamburger"> Hamburger </li>');
-
-        v = false;
+            $('li.tofu').each(function (i) {
+                $(this).after($m[i]);
+            });
+            $('.tofu').remove();
+            $('li.meat').parent().parent().removeClass('veg_leaf');
+            v = false;
         }
     });
 });
-
 
 //DOM jquery methods
 // $('li.fish').children();
@@ -53,3 +57,10 @@ $(document).ready(function(){
 //$(".menu_list").children().slice(1,3); - a második elemet adja vissza (mindig a két érték közöttit)
 //$(".menu_list").parents().filter(".organic")
 //$("ul.menu_list.organic").children().not(".local"); - mindent visszaad a childrenek közül, ami nem egyezik
+
+//find an element
+//var $my_elements = $("li");
+//$my_elements.find("a");
+
+//hozzáfűzés
+//$("img#oreilly").wrap("<a href='http://www.oreilly.com'></a>");
